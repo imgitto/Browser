@@ -414,12 +414,7 @@ public class MainActivity extends AppCompatActivity implements WebInterfaceHelpe
         MainActivity.this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                frame.loadUrl("javascript:(()=>{" +
-                        "alert('opened');alert(typeof window.lamina.permission_change_event);" +
-                        "let event = new CustomEvent('lam-permission-change', { 'detail': null });\n" +
-                        "document.dispatchEvent(event);" +
-                        "}" +
-                        ")();");
+                frame.loadUrl("javascript:(()=>{window.lam.permissionChangeEvent()})();");
             }
         });
     }
