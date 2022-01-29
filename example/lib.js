@@ -13,8 +13,11 @@
   }
 
   _.lamina.permissionChangeEvent = () => {
-    let event = new CustomEvent('lam-permission-change', { 'detail': null });
+    alert("dispatching event");
+    let event = document.createEvent('Event');
+    event.initEvent('build', true, true);
     document.dispatchEvent(event);
+    alert("dispatched event");
   }
 
   let __ = window.lamina;
