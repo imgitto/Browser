@@ -1,0 +1,64 @@
+* {
+  margin:0px;
+  padding:0px;
+  box-sizing:border-box;
+}
+body {
+  font-family:"Roboto",sans-serif;
+  background:#f5f5f5;
+  padding:10px;
+}
+
+.app {
+  max-width:500px;
+  width:calc(100% - 10px);
+  margin:0px auto;
+  border:1px solid #ddd;
+}
+
+.box {
+  background:#fff;
+}
+.box .title {
+  padding:10px;
+  background:#ddd;
+}
+.box .no-access,
+.box .controls {
+  padding:10px;
+}
+.box .no-access p {
+  font-size:16px;
+  color:#111;
+  margin-bottom:10px;
+}
+.box .no-access button {
+  padding:8px 20px;
+  outline:none;
+  border:1px solid #555;
+  background:#555;
+  color:#fff;
+  font-size:15px;
+  cursor:pointer;
+  border-radius:20px;
+}
+.box .no-access button:active {
+  background:#ddd;
+}
+.box .controls {
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+.box .controls button {
+  padding:8px 20px;
+  outline:none;
+  border:1px solid #555;
+  background:transparent;
+  font-size:15px;
+  cursor:pointer;
+  border-radius:20px;
+}
+.box .controls input {
+  width:100%;
+}

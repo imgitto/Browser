@@ -1,0 +1,189 @@
+<html>
+    <head>
+        <style>
+            * {
+                margin:0px;
+                padding:0px;
+                box-sizing:border-box;
+            }
+            body {
+                width:100%;
+                height:100vh;
+                overflow:hidden;
+            }
+            .tool-box {
+                display:flex;
+                justify-content:space-between;
+                align-items:center;
+                gap:10px;
+                width:100%;
+                height:100%;
+                padding:10px;
+                background:#555;
+            }
+            .tool-box .url-box {
+                position:relative;
+                flex:1;
+            }
+            .tool-box .url-box input {
+                font-size:16px;
+                background:#222;
+                color:#fff;
+                border:none;
+                outline:none;
+                border-radius:5px;
+                padding:5px 5px 5px 25px;
+                width:100%;
+                height:100%;
+            }
+            .tool-box .url-box span.ssl-type {
+                position:absolute;
+                top:50%;
+                left:0px;
+                width:25px;
+                height:40px;
+                line-height:40px;
+                text-align:center;
+                transform:translateY(-50%);
+                color:#bbb;
+                font-size:12px;
+            }
+            .tool-box .url-box span.clear-url-btn {
+                position:absolute;
+                top:50%;
+                right:0px;
+                transform:translateY(-50%);
+                width:25px;
+                height:35px;
+                border-radius:0px 5px 5px 0px;
+                text-align:center;
+                line-height:35px;
+                background:#111;
+                color:#bbb;
+                font-size:16px;
+                display:none;
+                z-index:5;
+            }
+            .tool-box .more-btn button {
+                width:30px;
+                height:40px;
+                font-size:25px;
+                font-weight:600;
+                color:#fff;
+                background:transparent;
+                border:none;
+                outline:none;
+            }
+            .progress-bar {
+                position:fixed;
+                top:0px;
+                left:0px;
+                width:100%;
+                height:2px;
+            }
+            .progress-bar div {
+                position:absolute;
+                top:0px;
+                left:0px;
+                width:0px;
+                height:2px;
+                background:#88cefa;
+                transition:width 200ms ease-in-out;
+            }
+        </style>
+        <script>
+            let currentUrl = "https://google.com/", isClearedUrl = false;
+            function setUrl(url){
+                if(url === null || url === "null"){
+                    return;
+                }
+                document.getElementById("url-box").value = url;
+                if(url.startsWith("https://")){
+                    setSsl("true");
+                } else {
+                    setSsl("false");
+                }
+            }
+            function setLoadingProgress(progressValue){
+                progressValue = +progressValue;
+                if(Number.isNaN(progressValue)){
+                    document.querySelector(".progress-bar").style.display = "none";
+                    document.querySelector(".progress-bar div").style.width = "0%";
+                } else if(progressValue < 100){
+                    document.querySelector(".progress-bar").style.display = "block";
+                    document.querySelector(".progress-bar div").style.width = progressValue + "%";
+                } else {
+                    document.querySelector(".progress-bar div").style.width = "0%";
+                    document.querySelector(".progress-bar").style.display = "none";
+                }
+            }
+            function setSsl(status){
+                if(status === "false"){
+                    document.querySelector(".ssl-type").innerHTML = "&#128274;";
+                } else {
+                    document.querySelector(".ssl-type").innerHTML = "&#128275;";
+                }
+            }
+            window.addEventListener("DOMContentLoaded",function(){
+                document.querySelector(".ssl-type").addEventListener("click",function(event){
+                     _lamina.loadUrl("lam://permission");
+                });
+                document.querySelector(".more-btn").addEventListener("click",function(event){
+                    _lamina.loadUrl("lam://setting");
+                });
+                document.querySelector(".clear-url-btn").addEventListener("click",function(event){
+                    document.getElementById("url-box").value = "";
+                    document.getElementById("url-box").focus();
+                    isClearedUrl = true;
+                });
+                document.getElementById("url-box").addEventListener("focus",function(event){
+                    document.querySelector(".clear-url-btn").style.display = "block";
+                    document.getElementById("url-box").style.width = `calc(100% - 25px)`;
+                    document.getElementById("url-box").style.borderRadius = "5px 0px 0px 5px";
+                });
+                document.getElementById("url-box").addEventListener("blur", function(){
+                    document.querySelector(".clear-url-btn").style.display = "none";
+                    document.getElementById("url-box").style.width = "100%";
+                    document.getElementById("url-box").style.borderRadius = "5px";
+                });
+                document.getElementById("url-box").addEventListener("keydown",function(event){
+                    isClearedUrl = false;
+                    if(event.keyCode !== 13) {
+                        return;
+                    }
+                    let url = event.target.value.trim();
+                    if(url.startsWith("lam://")){
+                    } else if(url.startsWith("www.")){
+                        url = "https://"+url;
+                    } else if(!(
+                        url.startsWith("https://") || url.startsWith("http://")
+                    )) {
+                        url = "search://"+url;
+                    }
+                    event.target.blur();
+                    document.querySelector(".clear-url-btn").style.display = "none";
+                    document.getElementById("url-box").paddingRight = "20px";
+                    if(url.length > 0){
+                        currentUrl = event.target.value;
+                        _lamina.loadUrl(url);
+                    }
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div class="progress-bar">
+            <div class="progress"></div>
+        </div>
+        <div class="tool-box">
+            <div class="url-box">
+                <span class="ssl-type">&#128274;</span>
+                <input type="text" id="url-box" value=""/>
+                <span class="clear-url-btn">&times;</span>
+            </div>
+            <div class="more-btn">
+                <button>&#8285;</button>
+            </div>
+        </div>
+    </body>
+</html>

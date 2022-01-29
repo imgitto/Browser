@@ -1,0 +1,224 @@
+<html>
+    <head>
+        <style>
+            *{
+              margin:0px;
+              box-sizing:border-box;
+            }
+
+            body{
+              display:flex;
+              justify-content:center;
+              align-items:center;
+              height:100vh;
+              font-family:"roboto", sans-serif;
+              transition:all 300ms ease-in-out;
+            }
+            body.dark {
+                background:black;
+            }
+
+            .boxes{
+              display:flex;
+              width:240px;
+              height:80px;
+            }
+
+            .title{
+              text-align:center;
+              margin:50px 0px;
+              font-weight:400;
+              font-size:25px;
+              transition:all 500ms ease-in-out;
+            }
+
+            body.dark .title {
+                color:#ddd;
+            }
+
+            .button{
+              height:100%;
+              flex:1;
+              background:transparent;
+              border:1px solid black;
+              outline:none;
+              box-shadow:none;
+              font-size:25px;
+              color:#111;
+              font-weight:600;
+              transition:all 500ms ease-in-out;
+            }
+
+            body.dark .button {
+                color:#ddd;
+                border:1px solid #ddd;
+            }
+
+            #btn1{
+              border-top:1px solid transparent;
+              border-left:1px solid transparent;
+            }
+            #btn3{
+              border-top:1px solid transparent;
+              border-right:1px solid transparent;
+            }
+            #btn2 {
+              border-top:1px solid transparent;
+            }
+            #btn7{
+              border-bottom:1px solid transparent;
+              border-left:1px solid transparent;
+            }
+            #btn9{
+              border-bottom:1px solid transparent;
+              border-right:1px solid transparent;
+            }
+            #btn8 {
+              border-bottom:1px solid transparent;
+            }
+            #btn4{
+              border-left:1px solid transparent;
+            }
+            #btn6{
+              border-right:1px solid transparent;
+            }
+
+            #reset{
+              width:100%;
+              height:30px;
+              margin:50px 0px;
+              display:none;
+              border:1px solid black;
+              color:black;
+              outline:none;
+              background:transparent;
+              transition:all 500ms ease-in-out;
+            }
+
+            body.dark #reset {
+                color:#ddd;
+                border:1px solid #ddd;
+            }
+
+        </style>
+
+        <script>
+            window.addEventListener("DOMContentLoaded",function(){
+                let turn = "X";
+                let gameOver = false;
+                let arr = new Array(9).fill("");
+                for(let i=1; i<=9; i++){
+                  document.getElementById("btn"+i).addEventListener("click", function(){
+                   cross("btn"+i, i-1)
+                  });
+                }
+                document.querySelector("#reset").addEventListener("click", reset)
+                function reset(){
+                   for(let i=1; i<=9; i++){
+                     document.getElementById("btn"+i).innerText = "";
+                   }
+                   turn = "X";
+                   gameOver = false;
+                   arr = new Array(9).fill("");
+                   document.querySelector("#reset").style.display="none";
+                   document.body.classList.remove("dark");
+                }
+
+                function cross(id, i){
+                  if(document.getElementById(id).innerText!="" || gameOver==true){
+                    return;
+                  }
+                  if(window.lamina && window.lamina.isPermitted("vibrate")){
+                    window.lamina.vibrate(50);
+                  }
+                  document.getElementById(id).innerText = turn;
+                  if(turn == "X"){
+                    document.body.classList.add("dark");
+                  } else {
+                    document.body.classList.remove("dark");
+                  }
+                  arr[i]=turn;
+                  turn = (turn=="X")?"O":"X";
+                  whoWon();
+                  if(gameOver!=true && checkDraw()){
+                    alert("Match Draw");
+                    gameOver=true;
+                    document.querySelector("#reset").style.display="block";
+                  }
+                }
+
+                function checkDraw(){
+                  let count=0;
+                  for(let i=0; i<arr.length; i++){
+                    if(arr[i]!=""){
+                      count++;
+                    }
+                  }
+                  return(count==arr.length)
+                }
+
+                function whoWon(){
+                  let combArr = [
+                    [0,1,2],
+                    [3,4,5],
+                    [6,7,8],
+                    [0,3,6],
+                    [1,4,7],
+                    [2,5,8],
+                    [2,4,6],
+                    [0,4,8]
+                  ];
+                  for(let i=0; i<combArr.length; i++){
+                    const a=arr[combArr[i][0]];
+                    const b=arr[combArr[i][1]];
+                    const c=arr[combArr[i][2]];
+                    if((a==b && a==c)&&(a!="")){
+                      win();
+                      alert(a + " Won");
+                      gameOver = true;
+                      document.querySelector("#reset").style.display="block";
+                      break;
+                   }
+                  }
+                }
+
+                function win(){
+                  if(window.lamina && window.lamina.isPermitted("torch")){
+                    window.lamina.turnOnTorch();
+                    setTimeout(function(){
+                    window.lamina.turnOffTorch();
+                    }, 4000);
+                  }
+                }
+            });
+        </script>
+    </head>
+    <body>
+        <div class="game">
+            <div class="title">
+                Tic-Tac-Toe
+            </div>
+            <div class="boxes">
+                <button class="button" id="btn1"></button>
+                <button class="button" id="btn2"></button>
+                <button class="button" id="btn3"></button>
+            </div>
+            <div class="boxes">
+                <button class="button" id="btn4"></button>
+                <button class="button" id="btn5"></button>
+                <button class="button" id="btn6"></button>
+            </div>
+            <div class="boxes">
+                <button class="button" id="btn7"></button>
+                <button class="button" id="btn8"></button>
+                <button class="button" id="btn9"></button>
+            </div>
+            <div class="boxes">
+                <button id="reset">RESET</button>
+            </div>
+        </div>
+    </body>
+</html>
+
+
+

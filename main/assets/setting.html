@@ -1,0 +1,181 @@
+<html>
+    <head>
+        <style>
+             * {
+                margin:0px;
+                padding:0px;
+                box-sizing:border-box;
+            }
+            body {
+                font-family:"Roboto",sans-serif;
+                background:#f5f5f5;
+                min-height:100vh;
+            }
+            body.dark-theme {
+                filter:invert(1);
+            }
+            body.dark-theme * {
+                box-shadow:none;
+            }
+            button.btn {
+                padding:5px 10px;
+                font-size:15px;
+                background:#fff;
+                outline:none;
+            }
+            button.no-border {
+                border:none;
+            }
+            .app {
+                width:100%;
+            }
+            .app .header {
+                position:sticky;
+                top:0px;
+                left:0px;
+                display:flex;
+                justify-content:space-between;
+                align-items:center;
+                width:100%;
+                height:60px;
+                border-bottom:1px solid #bbb;
+                background:#fff;
+                padding:0px 10px;
+            }
+            .app .header .btn-group {
+                flex:1;
+            }
+            .app .header .title {
+                font-size:18px;
+                text-align:center;
+            }
+            .app .body {
+                padding:15px;
+                background:#f5f5f5;
+                min-height:calc(100vh - 60px);
+            }
+            .padding-sm {
+                padding:15px;
+            }
+            .text-center {
+                text-align:center;
+            }
+            .list {
+            }
+            .list.no-border {
+                border:none;
+            }
+            .list .item {
+                margin:8px 0px;
+                display:flex;
+                justify-content:space-between;
+                align-items:center;
+                background:#fff;
+                border:1px solid #eee;
+                box-shadow:0px 2px 5px 2px rgba(0,0,0,0.05);
+                border-radius:10px;
+                padding:10px;
+                min-height:60px;
+            }
+            .list .item .text {
+                flex:1;
+            }
+            .list .item .value {
+                color:#555;
+                font-size:16px;
+                font-weight:600;
+            }
+            .list .item  .control select {
+                padding:10px;
+                border:none;
+                outline:none;
+                background:transparent;
+            }
+        </style>
+
+        <script>
+            window.addEventListener("DOMContentLoaded",function(){
+                let defaultSearchEngine = _setting.getDefaultSearchEngine();
+                let isDarkThemeSelected = _setting.isDarkTheme();
+                if(isDarkThemeSelected == "1"){
+                    document.querySelector("#theme").value = "1";
+                } else {
+                    document.querySelector("#theme").value = "0";
+                }
+                document.querySelector("#default_search_engline").value = defaultSearchEngine;
+                document.querySelector("#default_search_engline").addEventListener("change",function(event){
+                    let value = event.target.value;
+                    defaultSearchEngine = value;
+                    _setting.setDefaultSearchEngine(defaultSearchEngine);
+                });
+                document.querySelector("#theme").addEventListener("change",function(event){
+                    let value = event.target.value;
+                    setDarkTheme(value);
+                    _setting.setDarkTheme(value);
+                });
+                document.querySelector("#go-back").addEventListener("click",function(event){
+                    _setting.loadPage("");
+                });
+                document.querySelector("#goto-history").addEventListener("click",function(event){
+                    _setting.loadPage("lam://history");
+                });
+                document.querySelector("#goto-tictactoe-game").addEventListener("click",function(event){
+                    _setting.loadPage("lam://tictactoe");
+                });
+            });
+            function setDarkTheme(value){
+                if(value == "true" || value == "1"){
+                    document.body.classList.add("dark-theme");
+                } else {
+                    document.body.classList.remove("dark-theme");
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <div class="app">
+            <div class="header">
+                <div class="btn-group">
+                    <button class="btn no-border" id="go-back">
+                        &lt; Home
+                    </button>
+                </div>
+                <div class="title">Setting</div>
+                <div class="btn-group">
+                </div>
+            </div>
+            <div class="body">
+                <div class="list">
+                    <div class="item" id="goto-history">
+                        <div class="text">History</div>
+                    </div>
+                    <div class="item">
+                        <div class="text">Default Search Engine</div>
+                        <div class="control">
+                            <select id="default_search_engline">
+                                <option value="google">Google</option>
+                                <option value="duckduckgo">Duckduckgo</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="text">Theme</div>
+                        <div class="control">
+                            <select id="theme">
+                                <option value="0">Light</option>
+                                <option value="1">Dark</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="item" id="goto-tictactoe-game">
+                        <div class="text">Tic Tac Toe Game</div>
+                    </div>
+                    <div class="item">
+                        <div class="text">Version</div>
+                        <div class="value">1.0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
