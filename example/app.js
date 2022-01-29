@@ -5,7 +5,7 @@ function BrightnessAPI() {
   });
 
   React.useEffect(() => {
-    window.addEventListener("lam-permission-change", function () {
+    document.addEventListener("lam-permission-change", function () {
       setPermitted(window.lam.brightness.isPermitted());
     });
   }, []);
