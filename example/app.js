@@ -239,7 +239,7 @@ function CalcAPI() {
     let startTime = performance.now();
     let result = window.lam.calc.do(code);
     let endTime = performance.now();
-    window.lam.uikit.alert("Result: time taken(" + (endTime - startTime) + " ms)", "");
+    window.lam.uikit.alert("Result: time taken(" + (endTime - startTime) + " ms)", result.substring(0,50)+"...");
   }
 
   return /*#__PURE__*/(
