@@ -39,6 +39,12 @@ function VibrateAPI() {
   const [permitted, setPermitted] = React.useState(() => {
     return window.lam.vibrate.isPermitted();
   });
+  
+  React.useEffect(() => {
+    window.addEventListener("lam-permission-change", function () {
+      setPermitted(window.lam.vibrate.isPermitted());
+    });
+  }, []);
 
   function onRequestAccess(e) {
     window.lam.vibrate.requestPermission();
@@ -64,7 +70,7 @@ function VibrateAPI() {
     React.createElement("button", { onClick: () => vibrate(200, 100, 200) }, "Pattern Vibrate 1"), /*#__PURE__*/
 
 
-    React.createElement("button", { onClick: () => vibrate(50, 20, 100, 50, 50) }, "Pattern Vibrate 2"))));
+    React.createElement("button", { onClick: () => vibrate(200, 100, 100, 100, 200, 100, 200) }, "Pattern Vibrate 2"))));
 
 
 
@@ -77,6 +83,12 @@ function TorchAPI() {
   const [permitted, setPermitted] = React.useState(() => {
     return window.lam.torch.isPermitted();
   });
+  
+  React.useEffect(() => {
+    window.addEventListener("lam-permission-change", function () {
+      setPermitted(window.lam.torch.isPermitted());
+    });
+  }, []);
 
   function onRequestAccess(e) {
     window.lam.torch.requestPermission();
@@ -113,6 +125,12 @@ function UIKitAPI() {
   const [permitted, setPermitted] = React.useState(() => {
     return window.lam.uikit.isPermitted();
   });
+  
+  React.useEffect(() => {
+    window.addEventListener("lam-permission-change", function () {
+      setPermitted(window.lam.uikit.isPermitted());
+    });
+  }, []);
 
   function onRequestAccess(e) {
     window.lam.uikit.requestPermission();
@@ -156,6 +174,12 @@ function NotificationAPI() {
   const [permitted, setPermitted] = React.useState(() => {
     return window.lam.notification.isPermitted();
   });
+  
+  React.useEffect(() => {
+    window.addEventListener("lam-permission-change", function () {
+      setPermitted(window.lam.notification.isPermitted());
+    });
+  }, []);
 
   function onRequestAccess(e) {
     window.lam.notification.requestPermission();
@@ -192,6 +216,12 @@ function CalcAPI() {
   const [permitted, setPermitted] = React.useState(() => {
     return window.lam.calc.isPermitted();
   });
+  
+  React.useEffect(() => {
+    window.addEventListener("lam-permission-change", function () {
+      setPermitted(window.lam.calc.isPermitted());
+    });
+  }, []);
 
   function onRequestAccess(e) {
     window.lam.calc.requestPermission();
