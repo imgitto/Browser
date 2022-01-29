@@ -13,11 +13,9 @@
   }
 
   _.lamina.permissionChangeEvent = () => {
-    alert("dispatching event");
     let event = document.createEvent('Event');
     event.initEvent('lam-permission-change', true, true);
     document.dispatchEvent(event);
-    alert("dispatched event");
   }
 
   let __ = window.lamina;
